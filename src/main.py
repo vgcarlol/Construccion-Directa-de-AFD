@@ -9,19 +9,27 @@ def main():
     string = input("Ingrese la cadena a evaluar: ")
 
     regex_postfix = RegexParser.infix_to_postfix(regex)
-    print(f"Postfix: {regex_postfix}")
+    print(f"\n🔄 Expresión en Postfix: {regex_postfix}")
 
+    # Construcción Directa del AFD
     afd_constructor = DirectAFDConstructor(regex_postfix)
     afd = afd_constructor.get_afd()
 
-    minimized_afd = AFDMinimizer(afd).minimize()
+    print("✅ AFD construido correctamente.")
 
+    # Minimización del AFD
+    minimized_afd = AFDMinimizer(afd).minimize()
+    print("✅ AFD minimizado correctamente.")
+
+    # Visualización del AFD
     visualize_afd(minimized_afd)
 
-    if simulate_afd(minimized_afd, string):
-        print(f"La cadena '{string}' es aceptada por el AFD.")
+    # Simulación de la cadena
+    result = simulate_afd(minimized_afd, string)
+    if result:
+        print(f"✅ La cadena '{string}' es **aceptada** por el AFD.")
     else:
-        print(f"La cadena '{string}' NO es aceptada por el AFD.")
+        print(f"❌ La cadena '{string}' **NO** es aceptada por el AFD.")
 
 if __name__ == "__main__":
     main()

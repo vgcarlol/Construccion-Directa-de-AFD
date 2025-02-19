@@ -67,7 +67,7 @@ class AFDMinimizer:
         for i, part in enumerate(partitions):
             rep = next(iter(part))
             state_map[rep] = i
-            new_states.append(State(is_final=self.states[rep]['is_final']))
+            new_states.append(State(positions=frozenset(part), is_final=self.states[rep]['is_final']))
         
         for src_rep, data in enumerate(partitions):
             for sym in self.alphabet:
