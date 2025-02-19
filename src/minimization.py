@@ -1,4 +1,5 @@
 from collections import defaultdict
+from direct_construction import State 
 
 class AFDMinimizer:
     def __init__(self, start_state):

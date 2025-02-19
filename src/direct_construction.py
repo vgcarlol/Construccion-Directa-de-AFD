@@ -1,7 +1,3 @@
-import logging
-
-logging.basicConfig(level=logging.DEBUG, format="%(message)s") # LOGS AÑADIDOS POR CHAT PARA TRATAR DE UBICAR LOS ERRORES ACTUALES
-
 class State:
     _id_counter = 0 
 
@@ -28,8 +24,6 @@ class DirectAFDConstructor:
             self.states.append(state)
             return state
 
-        logging.debug(f"\n🚀 Construyendo AFD para la expresión postfix: {self.regex_postfix}")
-
         stack = []
 
         for symbol in self.regex_postfix:
@@ -47,24 +41,6 @@ class DirectAFDConstructor:
                 end.transitions['ε'] = loop  # ε-transición para cerrar ciclo
                 loop.transitions['ε'] = end
                 stack.append((loop, end))
-            elif symbol == '+':  # Cierre positivo (al menos una repetición)
-                if not stack:
-                    raise ValueError(f"Error: + sin operandos en '{self.regex_postfix}'")
-
-                start, end = stack.pop()
-                
-                loop = new_state()
-
-                logging.debug(f"🔁 Cierre positivo '+' sobre ({start}, {end}) -> loop ({loop})")
-
-                end.transitions['ε'] = loop
-
-                loop.transitions.update(start.transitions)
-
-                loop.transitions['ε'] = end
-
-                stack.append((start, loop))
-                logging.debug(f"📌 Se añade al stack: {start}, {loop}")
 
 
             elif symbol == '|':  # Unión
@@ -83,15 +59,18 @@ class DirectAFDConstructor:
                     raise ValueError(f"Error: . sin suficientes operandos en '{self.regex_postfix}'")
                 s2_start, s2_end = stack.pop()
                 s1_start, s1_end = stack.pop()
-                s1_end.transitions.update(s2_start.transitions)
-                stack.append((s1_start, s2_end))
                 
+                # Conectar correctamente los estados finales e iniciales
+                s1_end.transitions.update(s2_start.transitions)  # Transiciones correctas
+                
+                # Asegurar que el estado final no se mezcle con otro
+                stack.append((s1_start, s2_end))
+                    
 
         if len(stack) != 1:
             raise ValueError(f"Error: Expresión postfix mal formada '{self.regex_postfix}'")
 
         start, end = stack.pop()
-        logging.debug(f"🏁 Estado final del AFD: {end}\n")
         return start
 
     def get_afd(self):
