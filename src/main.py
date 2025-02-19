@@ -9,7 +9,7 @@ def main():
     string = input("Ingrese la cadena a evaluar: ")
 
     regex_postfix = RegexParser.infix_to_postfix(regex)
-    print(f"\n🔄 Expresión en Postfix: {regex_postfix}")
+    print(f"\nExpresión en Postfix: {regex_postfix}")
 
     # Construcción Directa del AFD
     afd_constructor = DirectAFDConstructor(regex_postfix)
@@ -20,7 +20,7 @@ def main():
     # Minimización del AFD
     minimized_afd = AFDMinimizer(afd).minimize()
     print("✅ AFD minimizado correctamente.")
-
+    
     # Visualización del AFD
     visualize_afd(minimized_afd)
 

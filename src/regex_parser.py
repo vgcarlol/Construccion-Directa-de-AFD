@@ -3,7 +3,6 @@ class RegexParser:
 
     @staticmethod
     def add_concatenation_operators(regex):
-        """ Agrega operadores de concatenación implícitos en la expresión regular """
         new_regex = ""
         i = 0
 
@@ -30,7 +29,6 @@ class RegexParser:
 
     @staticmethod
     def infix_to_postfix(regex):
-        """ Convierte la expresión regular con concatenación explícita a notación postfix """
         regex = RegexParser.add_concatenation_operators(regex)
         output = []
         stack = []
@@ -52,9 +50,8 @@ class RegexParser:
         while stack:
             output.append(stack.pop())
 
-        # 🔴 Asegurar que el `#` se agrega **sin concatenación extra**
         if output[-1] == '.':
-            output.pop()  # 🔥 Eliminar el `.` incorrecto antes del `#`
+            output.pop()
         output.append("#")
 
         return ''.join(output)

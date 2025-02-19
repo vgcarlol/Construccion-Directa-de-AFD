@@ -1,11 +1,7 @@
-import logging
 from collections import defaultdict
-
-logging.basicConfig(level=logging.DEBUG, format="%(message)s")
 
 
 class Node:
-    """ Nodo del árbol sintáctico de la expresión regular """
     def __init__(self, symbol, nullable=False):
         self.symbol = symbol
         self.left = None
@@ -17,7 +13,6 @@ class Node:
 
 
 class State:
-    """ Representa un estado del AFD """
     _id_counter = 0 
 
     def __init__(self, positions, is_final=False):
@@ -32,7 +27,6 @@ class State:
 
 
 class DirectAFDConstructor:
-    """ Implementación del algoritmo de Construcción Directa de un AFD desde una expresión regular """
     
     def __init__(self, regex_postfix):
         self.regex_postfix = regex_postfix
@@ -41,7 +35,6 @@ class DirectAFDConstructor:
         self.start_state = self.construct_afd()
 
     def build_syntax_tree(self):
-        """ Construye el árbol sintáctico a partir de la expresión regular en notación postfix """
         stack = []
         position_counter = 1  # Contador para asignar posiciones únicas a hojas
 
@@ -94,7 +87,6 @@ class DirectAFDConstructor:
                     self.followpos[pos].update(right.firstpos)
                 stack.append(node)
 
-        # 🔴 **Corrección: Agregar `#` si la pila no tiene solo un nodo**
         if len(stack) > 1:
             root = stack.pop()
             while stack:
@@ -109,7 +101,6 @@ class DirectAFDConstructor:
                 root = new_root  # Ahora este es el nuevo root
             stack.append(root)
 
-        # ✅ **Verificación final**
         if len(stack) != 1:
             raise ValueError(f"Error: Expresión postfix mal formada '{self.regex_postfix}', pila final: {len(stack)} elementos")
 
@@ -117,7 +108,6 @@ class DirectAFDConstructor:
 
 
     def construct_afd(self):
-        """ Construye el AFD directamente a partir del árbol sintáctico y followpos """
         syntax_tree_root = self.build_syntax_tree()
         start_positions = frozenset(syntax_tree_root.firstpos)
         estados_pendientes = [start_positions]
