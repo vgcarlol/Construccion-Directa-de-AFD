@@ -11,6 +11,16 @@ Este proyecto implementa la construcción directa de un Autómata Finito Determi
 - Simulación de cadenas de entrada para verificar su aceptación.
 - Sistema de pruebas unitarias para validar la correcta construcción y funcionamiento del AFD.
 
+## VIDEOS DE EXPLICACIÓN Y EJECUCIÓN:
+
+Construcción Directa:
+- [Video de Ejecución](https://youtu.be/gBHMyWfz9Ow)
+- [Video de Explicación](https://youtu.be/0_EHSKtklvI)
+
+Simulación de un AFN
+- [Video de Ejecución](https://youtu.be/qiqhd0nq3HU)
+- Video de explicación no sé si sea necesario al ser un proyecto ya explicado a Bidkar el semestre pasado (Proyecto 1 - Teoría de la Computación)
+
 ## Requisitos
 
 - Python 3.x
